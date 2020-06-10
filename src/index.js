@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 const app = express();
 
+// Conexão com BD
 mongoose.connect("mongodb://localhost:27017/3c_db", {
   useNewUrlParser: true,
   useFindAndModify: true,
