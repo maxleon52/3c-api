@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const { update } = require("../models/User");
 
 module.exports = {
   async create(req, res) {
@@ -22,7 +23,14 @@ module.exports = {
         return res.status(201).json({ _id, name, email });
       }
     } catch (error) {
-      return res.status(400).json({ message: error });
+      return res
+        .status(400)
+        .json({ message: "Ocorreu um erro ao salvar no BD.", ErrCatch: error });
     }
+  },
+
+  async update(req, res) {
+    console.log(req.userId);
+    return res.json({ ok: "true" });
   },
 };
