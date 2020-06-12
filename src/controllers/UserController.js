@@ -31,6 +31,31 @@ module.exports = {
 
   async update(req, res) {
     console.log(req.userId);
-    return res.json({ ok: "true" });
+    const { email, oldPassword } = req.body;
+
+    const user = await User.findById(req.userId);
+    console.log(user);
+
+    if (email && email !== user.email) {
+      const userExists = await User.findOne({ email });
+
+      if (userExists) {
+        return res.status(401).json({
+          message: "Esse e-mail ja está sendo usado, use outro e-mail válido.",
+        });
+      }
+    }
+
+    if (
+      oldPassword &&
+      !(await bcrypt.compare(oldPassword, user.password_hash))
+    ) {
+      return res.status(401).json({ message: "Senha antiga inválida." });
+    }
+
+    const { _id, name } = await User.findByIdAndUpdate(user._id, req.body, {
+      new: true,
+    });
+    return res.json({ _id, name, email });
   },
 };
