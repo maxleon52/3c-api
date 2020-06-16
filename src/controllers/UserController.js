@@ -67,7 +67,7 @@ module.exports = {
       }
 
       // Tentando atualizar dados
-      const { name, email, oldPassword, password } = req.body;
+      const { name, email, oldPassword, password, avatar_id } = req.body;
       const user = await User.findById(req.userId);
 
       // Vericando se Email foi preenchido e buscando no BD
@@ -94,7 +94,7 @@ module.exports = {
       const password_hash = await bcrypt.hash(password, 8);
       const response = await User.findByIdAndUpdate(
         user._id,
-        { name, email, password_hash },
+        { name, email, password_hash, avatar_id },
         {
           new: true,
         }
