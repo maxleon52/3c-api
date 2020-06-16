@@ -31,7 +31,7 @@ module.exports = {
 
   async update(req, res) {
     console.log(req.userId);
-    const { email, oldPassword } = req.body;
+    const { name, email, oldPassword, password } = req.body;
 
     const user = await User.findById(req.userId);
     console.log(user);
@@ -53,9 +53,15 @@ module.exports = {
       return res.status(401).json({ message: "Senha antiga inválida." });
     }
 
-    const { _id, name } = await User.findByIdAndUpdate(user._id, req.body, {
-      new: true,
-    });
-    return res.json({ _id, name, email });
+    const password_hash = await bcrypt.hash(password, 8);
+
+    const response = await User.findByIdAndUpdate(
+      user._id,
+      { name, email, password_hash },
+      {
+        new: true,
+      }
+    );
+    return res.json(response);
   },
 };
