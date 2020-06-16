@@ -21,7 +21,6 @@ module.exports = {
 
       // Inserindo a variavel userId na Request, para manipulação de dados futuros
       req.userId = decoded._id;
-      console.log(decoded);
 
       return next();
     } catch (error) {
