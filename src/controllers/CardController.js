@@ -1,4 +1,5 @@
 const Card = require("../models/Card");
+const { update } = require("./UserController");
 
 module.exports = {
   async index(req, res) {
@@ -39,17 +40,54 @@ module.exports = {
 
   async create(req, res) {
     try {
-      const { name, final_card, expiration_card, pay_day } = req.body;
+      const { name, final_card, expiration_card, pay_day, flag } = req.body;
 
       const response = await Card.create({
         name,
         final_card,
         expiration_card,
         pay_day,
+        flag,
         user_id: req.userId,
       });
 
       return res.status(201).json(response);
+    } catch (error) {
+      return res.status(400).json({
+        message: "Ocorreu um erro inesperado, contate o suporte",
+        ErrCatch: error,
+      });
+    }
+  },
+
+  async update(req, res) {
+    try {
+      // Verifica se exist eo cartão no BD
+      const existCard = await Card.findById(req.params._id);
+      if (!existCard) {
+        return res.status(400).json({ message: "Cartão não existente!" });
+      }
+
+      // Atualiza dados do cartão
+      const response = await Card.findByIdAndUpdate(req.params._id, req.body, {
+        new: true,
+      });
+      return res.status(201).json(response);
+    } catch (error) {
+      return res.status(400).json({
+        message: "Ocorreu um erro inesperado, contate o suporte",
+        ErrCatch: error,
+      });
+    }
+  },
+
+  async delele(req, res) {
+    try {
+      const { _id } = req.params;
+
+      await Card.findByIdAndDelete({ _id: _id, user_id: req.userId });
+
+      return res.status(201).json({ message: " Cartão deletado com sucesso!" });
     } catch (error) {
       return res.status(400).json({
         message: "Ocorreu um erro inesperado, contate o suporte",

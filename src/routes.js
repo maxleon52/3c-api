@@ -26,6 +26,8 @@ routes.put("/user", UserController.update);
 routes.get("/cards", CardController.index);
 routes.get("/cards-search", CardController.show);
 routes.post("/cards", CardController.create);
+routes.put("/cards/:_id", CardController.update);
+routes.delete("/cards/:_id", CardController.delele);
 
 // Upload de arquivos
 routes.post("/files", upload.single("file"), FileController.create);
