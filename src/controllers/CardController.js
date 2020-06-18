@@ -1,5 +1,4 @@
 const Card = require("../models/Card");
-const { update } = require("./UserController");
 
 module.exports = {
   async index(req, res) {

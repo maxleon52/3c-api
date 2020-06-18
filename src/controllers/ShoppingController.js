@@ -1,4 +1,5 @@
 const Shopping = require("../models/Shopping");
+const PaymentBillet = require("../models/PaymentBillet");
 
 module.exports = {
   async index(req, res) {
@@ -51,7 +52,7 @@ module.exports = {
         card_id,
       } = req.body;
 
-      const response = await Shopping.create({
+      const buy = await Shopping.create({
         name,
         name_shopping,
         qtd_portion,
@@ -62,7 +63,21 @@ module.exports = {
         user_id: req.userId,
       });
 
-      return res.status(201).json(response);
+      if (!buy) {
+        return res
+          .status(400)
+          .json({ message: "erro ao cadastrar compra, tente mais tarde." });
+      }
+
+      const paymentBillet = await PaymentBillet.create({
+        due_date: buy.buy_date,
+        shopping_id: buy._id,
+        debtor_id: buy.debtor_id,
+        card_id: buy.card_id,
+        user_id: buy.user_id,
+      });
+
+      return res.status(201).json({ buy, paymentBillet });
     } catch (error) {
       return res.status(400).json({
         message: "Ocorreu um erro inesperado, contate o suporte.",
