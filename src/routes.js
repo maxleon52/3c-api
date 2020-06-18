@@ -28,14 +28,14 @@ routes.get("/cards", CardController.index);
 routes.get("/cards-search", CardController.show);
 routes.post("/cards", CardController.create);
 routes.put("/cards/:_id", CardController.update);
-routes.delete("/cards/:_id", CardController.delele);
+routes.delete("/cards/:_id", CardController.delete);
 
 // Debtors
-// routes.get("/debtors", DebtorController.index);
-// routes.get("/debtors-search", DebtorController.show);
+routes.get("/debtors", DebtorController.index);
+routes.get("/debtors-search", DebtorController.show);
 routes.post("/debtors", DebtorController.create);
 routes.put("/debtors/:_id", DebtorController.update);
-// routes.delete("/debtors/:_id", DebtorController.delele);
+routes.delete("/debtors/:_id", DebtorController.delete);
 
 // Upload de arquivos
 routes.post("/files", upload.single("file"), FileController.create);

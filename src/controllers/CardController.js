@@ -81,7 +81,7 @@ module.exports = {
     }
   },
 
-  async delele(req, res) {
+  async delete(req, res) {
     try {
       const { _id } = req.params;
 

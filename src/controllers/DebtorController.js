@@ -1,8 +1,44 @@
-const mongoose = require("mongoose");
 const Debtor = require("../models/Debtor");
-const { create } = require("./CardController");
 
 module.exports = {
+  async index(req, res) {
+    try {
+      const response = await Debtor.find({ user_id: req.userId });
+
+      if (response <= 0) {
+        return res.status(200).json({ message: "nenhum devedor cadastrado" });
+      }
+
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json({
+        message: "Ocorreu um erro inesperado, contate o suporte.",
+        ErrCatch: error,
+      });
+    }
+  },
+
+  async show(req, res) {
+    try {
+      const { name } = req.query;
+      const response = await Debtor.find({
+        name: new RegExp(name, "i"),
+        user_id: req.userId,
+      });
+
+      if (response <= 0) {
+        return res.status(200).json({ message: "nenhum devedor cadastrado" });
+      }
+
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).json({
+        message: "Ocorreu um erro inesperado, contate o suporte.",
+        ErrCatch: error,
+      });
+    }
+  },
+
   async create(req, res) {
     try {
       const { name } = req.body;
@@ -16,31 +52,41 @@ module.exports = {
       });
     }
   },
+
   async update(req, res) {
-    // Verifica se exist devedor no BD
-    const { _id } = req.params;
-    const existDebtor = await Debtor.findById({ _id });
-    console.log(existDebtor);
-    if (existDebtor.match("/^[0-9a-fA-F]{24}$/")) {
-      return res.status(400).json({ message: "Devedor não existente!" });
+    try {
+      // Atualiza dados do devedor
+      const response = await Debtor.findByIdAndUpdate(
+        req.params._id,
+        req.body,
+        {
+          new: true,
+        }
+      );
+
+      return res.status(201).json(response);
+    } catch (error) {
+      return res.status(400).json({
+        message: "Ocorreu um erro inesperado, contate o suporte.",
+        ErrCatch: error,
+      });
     }
+  },
 
-    // try {
-    //   // Atualiza dados do devedor
-    //   const response = await Debtor.findByIdAndUpdate(
-    //     req.params._id,
-    //     req.body,
-    //     {
-    //       new: true,
-    //     }
-    //   );
+  async delete(req, res) {
+    try {
+      const { _id } = req.params;
 
-    //   return res.status(201).json(response);
-    // } catch (error) {
-    //   return res.status(400).json({
-    //     message: "Ocorreu um erro inesperado, contate o suporte.",
-    //     ErrCatch: error,
-    //   });
-    // }
+      await Debtor.findByIdAndDelete({ _id, user_id: req.userId });
+
+      return res
+        .status(201)
+        .json({ message: "Devedor deletado com suscesso!" });
+    } catch (error) {
+      return res.status(400).json({
+        message: "Ocorreu um erro inesperado, contate o suporte.",
+        ErrCatch: error,
+      });
+    }
   },
 };
