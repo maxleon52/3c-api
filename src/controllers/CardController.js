@@ -6,6 +6,10 @@ module.exports = {
     try {
       const response = await Card.find({ user_id: req.userId });
 
+      if (response <= 0) {
+        return res.status(200).json({ message: "nenhum cartão cadastrado" });
+      }
+
       return res.status(201).json(response);
     } catch (error) {
       return res.status(400).json({
