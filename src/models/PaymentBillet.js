@@ -6,6 +6,14 @@ const PaymentBilletSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    portion: {
+      type: Number,
+      required: true,
+    },
+    value: {
+      type: Number,
+      required: true,
+    },
     shopping_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

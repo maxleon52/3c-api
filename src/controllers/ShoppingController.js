@@ -70,12 +70,13 @@ module.exports = {
           .status(400)
           .json({ message: "erro ao cadastrar compra, tente mais tarde." });
       }
-
       let buyPortion = buy.qtd_portion;
 
-      for (let i = 0; i < buyPortion; i++) {
+      for (let i = 1; i <= buyPortion; i++) {
         await PaymentBillet.create({
           due_date: buy.buy_date,
+          portion: i,
+          value: buy.value / buy.qtd_portion,
           shopping_id: buy._id,
           debtor_id: buy.debtor_id,
           card_id: buy.card_id,
