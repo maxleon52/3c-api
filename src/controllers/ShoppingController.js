@@ -52,6 +52,7 @@ module.exports = {
         card_id,
       } = req.body;
 
+      // Cadastra compra
       const buy = await Shopping.create({
         name,
         name_shopping,
@@ -63,21 +64,25 @@ module.exports = {
         user_id: req.userId,
       });
 
+      // Verifica se a compra acima foi cadastrada
       if (!buy) {
         return res
           .status(400)
           .json({ message: "erro ao cadastrar compra, tente mais tarde." });
       }
 
-      const paymentBillet = await PaymentBillet.create({
-        due_date: buy.buy_date,
-        shopping_id: buy._id,
-        debtor_id: buy.debtor_id,
-        card_id: buy.card_id,
-        user_id: buy.user_id,
-      });
+      let buyPortion = buy.qtd_portion;
 
-      return res.status(201).json({ buy, paymentBillet });
+      for (let i = 0; i < buyPortion; i++) {
+        await PaymentBillet.create({
+          due_date: buy.buy_date,
+          shopping_id: buy._id,
+          debtor_id: buy.debtor_id,
+          card_id: buy.card_id,
+          user_id: buy.user_id,
+        });
+      }
+      return res.status(201).json(buy);
     } catch (error) {
       return res.status(400).json({
         message: "Ocorreu um erro inesperado, contate o suporte.",
