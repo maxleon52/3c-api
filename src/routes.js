@@ -8,6 +8,7 @@ const UserController = require("./controllers/UserController");
 const SessionController = require("./controllers/SessionController");
 const FileController = require("./controllers/FileController");
 const CardController = require("./controllers/CardController");
+const DebtorController = require("./controllers/DebtorController");
 
 const upload = multer(multerConfig);
 
@@ -28,6 +29,13 @@ routes.get("/cards-search", CardController.show);
 routes.post("/cards", CardController.create);
 routes.put("/cards/:_id", CardController.update);
 routes.delete("/cards/:_id", CardController.delele);
+
+// Debtors
+// routes.get("/debtors", DebtorController.index);
+// routes.get("/debtors-search", DebtorController.show);
+routes.post("/debtors", DebtorController.create);
+routes.put("/debtors/:_id", DebtorController.update);
+// routes.delete("/debtors/:_id", DebtorController.delele);
 
 // Upload de arquivos
 routes.post("/files", upload.single("file"), FileController.create);
