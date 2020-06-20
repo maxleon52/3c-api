@@ -43,7 +43,14 @@ module.exports = {
 
   async create(req, res) {
     try {
-      const { name, final_card, expiration_card, pay_day, flag } = req.body;
+      const {
+        name,
+        final_card,
+        expiration_card,
+        pay_day,
+        best_day,
+        flag,
+      } = req.body;
 
       const response = await Card.create({
         name,
@@ -51,6 +58,7 @@ module.exports = {
         expiration_card,
         pay_day,
         flag,
+        best_day,
         user_id: req.userId,
       });
 

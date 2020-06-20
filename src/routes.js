@@ -41,7 +41,7 @@ routes.delete("/debtors/:_id", DebtorController.delete);
 // Shopping
 routes.get("/shopping", ShoppingController.index);
 routes.get("/shopping-search", ShoppingController.show);
-routes.post("/shopping", ShoppingController.create);
+routes.post("/shopping/", ShoppingController.create);
 routes.put("/shopping/:_id", ShoppingController.update);
 routes.delete("/shopping/:_id", ShoppingController.delete);
 

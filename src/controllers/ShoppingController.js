@@ -1,5 +1,8 @@
+const moment = require("moment");
 const Shopping = require("../models/Shopping");
+const Card = require("../models/Card");
 const PaymentBillet = require("../models/PaymentBillet");
+const { set } = require("mongoose");
 
 module.exports = {
   async index(req, res) {
@@ -58,7 +61,7 @@ module.exports = {
         name_shopping,
         qtd_portion,
         value,
-        buy_date,
+        buy_date, // YYYY MM DD  - Salva assim no BD // Envia: MM DD AAAA
         debtor_id,
         card_id,
         user_id: req.userId,
@@ -70,19 +73,44 @@ module.exports = {
           .status(400)
           .json({ message: "erro ao cadastrar compra, tente mais tarde." });
       }
-      let buyPortion = buy.qtd_portion;
+      const infoCard = await Card.findById({ _id: card_id });
 
+      const buyDate = new Date(buy.buy_date);
+      const dayBuyDue = buyDate.getUTCDate();
+
+      console.log(typeof dayBuyDue);
+      console.log(typeof infoCard.best_day);
+
+      // Loop para gerar os boletos
+      let buyPortion = buy.qtd_portion; // Parcela
       for (let i = 1; i <= buyPortion; i++) {
-        await PaymentBillet.create({
-          due_date: buy.buy_date,
-          portion: i,
-          value: buy.value / buy.qtd_portion,
-          shopping_id: buy._id,
-          debtor_id: buy.debtor_id,
-          card_id: buy.card_id,
-          user_id: buy.user_id,
-        });
+        if (buyPortion === 1 && dayBuyDue < infoCard.best_day) {
+          await PaymentBillet.create({
+            due_date: buyDate.setUTCDate(infoCard.pay_day), // Essa data deve ser todo dia 22 de cada mês
+            portion: i,
+            value: buy.value / buy.qtd_portion,
+            shopping_id: buy._id,
+            debtor_id: buy.debtor_id,
+            card_id: buy.card_id,
+            user_id: buy.user_id,
+          });
+        } else {
+          buyDate.setDate(infoCard.pay_day);
+          let mes = buyDate.getUTCMonth();
+          buyDate.setMonth(mes + 1);
+
+          await PaymentBillet.create({
+            due_date: buyDate, // Essa data deve ser todo dia 22 de cada mês
+            portion: i,
+            value: buy.value / buy.qtd_portion,
+            shopping_id: buy._id,
+            debtor_id: buy.debtor_id,
+            card_id: buy.card_id,
+            user_id: buy.user_id,
+          });
+        }
       }
+
       return res.status(201).json(buy);
     } catch (error) {
       return res.status(400).json({

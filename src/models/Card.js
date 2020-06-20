@@ -19,6 +19,10 @@ const CardSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    best_day: {
+      type: Number,
+      required: true,
+    },
     flag: {
       type: String,
       required: true,
