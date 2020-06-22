@@ -74,12 +74,11 @@ module.exports = {
       }
       const infoCard = await Card.findById({ _id: card_id });
 
-      const buyDate = new Date(buy.buy_date);
-      const dayBuyDue = buyDate.getUTCDate();
+      const buyDate = new Date(buy.buy_date); //01/12/2020
+      const dayBuyDue = buyDate.getUTCDate(); //01/12/2020
 
       // Loop para gerar os boletos
       let buyPortion = buy.qtd_portion; // Parcela
-      console.log(buyPortion);
       for (let i = 1; i <= buyPortion; i++) {
         if (i === 1 && dayBuyDue < infoCard.best_day) {
           await PaymentBillet.create({
@@ -97,7 +96,11 @@ module.exports = {
           buyDate.setUTCMonth(mes + 1);
 
           await PaymentBillet.create({
-            due_date: buyDate, // Essa data deve ser todo dia 22 de cada mês
+            due_date:
+              buyDate.getUTCMonth() === 12
+                ? buyDate.setUTCMonth(0) &&
+                  buyDate.setUTCFullYear(buyDate.getUTCFullYear() + 1)
+                : buyDate, // Essa data deve ser todo dia 22 de cada mês
             portion: i,
             value: buy.value / buy.qtd_portion,
             shopping_id: buy._id,
