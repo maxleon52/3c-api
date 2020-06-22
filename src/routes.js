@@ -10,6 +10,7 @@ const FileController = require("./controllers/FileController");
 const CardController = require("./controllers/CardController");
 const DebtorController = require("./controllers/DebtorController");
 const ShoppingController = require("./controllers/ShoppingController");
+const AbstractController = require("./controllers/AbstractController");
 
 const upload = multer(multerConfig);
 
@@ -44,6 +45,9 @@ routes.get("/shopping-search", ShoppingController.show);
 routes.post("/shopping/", ShoppingController.create);
 routes.put("/shopping/:_id", ShoppingController.update);
 routes.delete("/shopping/:_id", ShoppingController.delete);
+
+// Abstract
+routes.get("/abstract/:card_id", AbstractController.index);
 
 // Upload de arquivos
 routes.post("/files", upload.single("file"), FileController.create);
