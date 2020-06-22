@@ -1,8 +1,7 @@
-const moment = require("moment");
+// const moment = require("moment");
 const Shopping = require("../models/Shopping");
 const Card = require("../models/Card");
 const PaymentBillet = require("../models/PaymentBillet");
-const { set } = require("mongoose");
 
 module.exports = {
   async index(req, res) {
@@ -78,13 +77,11 @@ module.exports = {
       const buyDate = new Date(buy.buy_date);
       const dayBuyDue = buyDate.getUTCDate();
 
-      console.log(typeof dayBuyDue);
-      console.log(typeof infoCard.best_day);
-
       // Loop para gerar os boletos
       let buyPortion = buy.qtd_portion; // Parcela
+      console.log(buyPortion);
       for (let i = 1; i <= buyPortion; i++) {
-        if (buyPortion === 1 && dayBuyDue < infoCard.best_day) {
+        if (i === 1 && dayBuyDue < infoCard.best_day) {
           await PaymentBillet.create({
             due_date: buyDate.setUTCDate(infoCard.pay_day), // Essa data deve ser todo dia 22 de cada mês
             portion: i,
@@ -95,9 +92,9 @@ module.exports = {
             user_id: buy.user_id,
           });
         } else {
-          buyDate.setDate(infoCard.pay_day);
+          buyDate.setUTCDate(infoCard.pay_day);
           let mes = buyDate.getUTCMonth();
-          buyDate.setMonth(mes + 1);
+          buyDate.setUTCMonth(mes + 1);
 
           await PaymentBillet.create({
             due_date: buyDate, // Essa data deve ser todo dia 22 de cada mês
