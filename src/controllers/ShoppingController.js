@@ -54,7 +54,11 @@ module.exports = {
         card_id,
       } = req.body;
 
+      // Promise.All
+      // const [] = await Promise.all([])
+
       // Cadastra compra
+
       const buy = await Shopping.create({
         name,
         name_shopping,
@@ -72,6 +76,7 @@ module.exports = {
           .status(400)
           .json({ message: "erro ao cadastrar compra, tente mais tarde." });
       }
+
       const infoCard = await Card.findById({ _id: card_id });
 
       const buyDate = new Date(buy.buy_date); //01/12/2020
