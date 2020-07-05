@@ -16,7 +16,7 @@ const upload = multer(multerConfig);
 
 // Create User
 routes.post("/user", UserController.create);
-// Create User
+// Create Session
 routes.post("/session", SessionController.create);
 
 // Middleware GLOBAL -  ROTAS Autenticadas
