@@ -4,7 +4,7 @@ module.exports = {
   async index(req, res) {
     try {
       const response = await Card.find({ user_id: req.userId });
-
+      console.log(req.userId);
       if (response <= 0) {
         return res.status(200).json({ message: "nenhum cartão cadastrado" });
       }
@@ -50,6 +50,7 @@ module.exports = {
         pay_day,
         best_day,
         flag,
+        color,
       } = req.body;
 
       const response = await Card.create({
@@ -59,6 +60,7 @@ module.exports = {
         pay_day,
         flag,
         best_day,
+        color,
         user_id: req.userId,
       });
 
