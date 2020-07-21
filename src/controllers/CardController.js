@@ -53,19 +53,29 @@ module.exports = {
         color,
       } = req.body;
 
+      // Verifica se exist eo cartão no BD
+      const existCard = await Card.findOne({ final_card });
+      if (existCard) {
+        console.log(existCard);
+        return res
+          .status(400)
+          .json({ message: "Já existe um cartão cadastrado com esse número!" });
+      }
+
       const response = await Card.create({
         name,
         final_card,
         expiration_card,
-        pay_day,
+        pay_day: parseInt(pay_day),
+        best_day: parseInt(best_day),
         flag,
-        best_day,
         color,
         user_id: req.userId,
       });
 
       return res.status(201).json(response);
     } catch (error) {
+      console.log(error);
       return res.status(400).json({
         message: "Ocorreu um erro inesperado, contate o suporte",
         ErrCatch: error,

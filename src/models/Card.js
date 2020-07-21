@@ -7,7 +7,7 @@ const CardSchema = new mongoose.Schema(
       required: true,
     },
     final_card: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
     },
