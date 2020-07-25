@@ -8,6 +8,7 @@ const UserController = require("./controllers/UserController");
 const SessionController = require("./controllers/SessionController");
 const FileController = require("./controllers/FileController");
 const CardController = require("./controllers/CardController");
+const CardFindController = require("./controllers/CardFindController");
 const DebtorController = require("./controllers/DebtorController");
 const ShoppingController = require("./controllers/ShoppingController");
 const AbstractController = require("./controllers/AbstractController");
@@ -27,7 +28,8 @@ routes.put("/user", UserController.update);
 
 // Cards
 routes.get("/cards", CardController.index);
-routes.get("/cards-search", CardController.show);
+routes.get("/cards-search", CardFindController.show);
+routes.get("/cards/:_id", CardController.show);
 routes.post("/cards", CardController.create);
 routes.put("/cards/:_id", CardController.update);
 routes.delete("/cards/:_id", CardController.delete);

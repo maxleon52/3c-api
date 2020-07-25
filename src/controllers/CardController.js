@@ -4,7 +4,6 @@ module.exports = {
   async index(req, res) {
     try {
       const response = await Card.find({ user_id: req.userId });
-      console.log(req.userId);
       if (response <= 0) {
         return res.status(200).json({ message: "nenhum cartão cadastrado" });
       }
@@ -21,16 +20,15 @@ module.exports = {
   // Corrigir! saber como enviar mais de um campo na mesma busca ao BD
   async show(req, res) {
     try {
-      const { name, final_card, flag } = req.query;
-      // const num_card = Number(final_card);
+      const { _id } = req.params;
       const response = await Card.find({
-        final_card: final_card,
+        _id,
         user_id: req.userId,
       });
 
-      if (response.length <= 0) {
-        return res.status(200).json({ message: "Nenhum cartão cadastrado" });
-      }
+      // if (response.length <= 0) {
+      //   return res.status(200).json({ message: "Nenhum cartão cadastrado" });
+      // }
 
       return res.status(201).json(response);
     } catch (error) {
@@ -56,7 +54,6 @@ module.exports = {
       // Verifica se exist eo cartão no BD
       const existCard = await Card.findOne({ final_card });
       if (existCard) {
-        console.log(existCard);
         return res
           .status(400)
           .json({ message: "Já existe um cartão cadastrado com esse número!" });
@@ -75,7 +72,6 @@ module.exports = {
 
       return res.status(201).json(response);
     } catch (error) {
-      console.log(error);
       return res.status(400).json({
         message: "Ocorreu um erro inesperado, contate o suporte",
         ErrCatch: error,
