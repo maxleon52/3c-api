@@ -9,10 +9,9 @@ module.exports = {
         final_card,
         user_id: req.userId,
       });
-
-      if (response.length <= 0) {
+      if ((response <= 0) | (response == null)) {
         return res
-          .status(200)
+          .status(201)
           .json({ message: "Nenhum cartão cadastrado com esse número." });
       }
 
