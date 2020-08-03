@@ -6,7 +6,11 @@ const PaymentBillet = require("../models/PaymentBillet");
 module.exports = {
   async index(req, res) {
     try {
-      const response = await Shopping.find({ user_id: req.userId });
+      const response = await Shopping.find({ user_id: req.userId })
+        .populate({
+          path: "card_id",
+        })
+        .populate({ path: "debtor_id" });
 
       if (response <= 0) {
         return res.status(200).json({ message: "nenhuma compra cadastrado" });

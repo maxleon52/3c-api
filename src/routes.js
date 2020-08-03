@@ -10,6 +10,7 @@ const FileController = require("./controllers/FileController");
 const CardController = require("./controllers/CardController");
 const CardFindController = require("./controllers/CardFindController");
 const DebtorController = require("./controllers/DebtorController");
+const DebtorFindController = require("./controllers/DebtorFindController");
 const ShoppingController = require("./controllers/ShoppingController");
 const AbstractController = require("./controllers/AbstractController");
 
@@ -36,7 +37,8 @@ routes.delete("/cards/:_id", CardController.delete);
 
 // Debtors
 routes.get("/debtors", DebtorController.index);
-routes.get("/debtors-search", DebtorController.show);
+routes.get("/debtors-search", DebtorFindController.show);
+routes.get("/debtors/:_id", DebtorController.show);
 routes.post("/debtors", DebtorController.create);
 routes.put("/debtors/:_id", DebtorController.update);
 routes.delete("/debtors/:_id", DebtorController.delete);
