@@ -6,6 +6,22 @@ Esta é uma API criada para solucionar um problema pessoal, contudo, acredito qu
 
 Esta é um release inicial, v0.1, com o intuito apenas de válidar o MVP. Mais melhorias estão sendo implementadas no código, e serão implementadas com o tempo.
 
+# ⚙ Requesitos
+
+## banco de dados MongoDB
+
+- altere o arquivo src/index.js de acordo:
+
+```
+// Conexão com BD
+mongoose.connect("mongodb://localhost:27017/3c_db", {
+  useNewUrlParser: true,
+  useFindAndModify: true,
+  useUnifiedTopology: true,
+});
+
+```
+
 # 🔨 Ferramentas
 
 - Nodejs
@@ -21,7 +37,7 @@ Esta é um release inicial, v0.1, com o intuito apenas de válidar o MVP. Mais m
 - Clone o projeto
 
 ```
-git clone https://github.com/maxleon52/3c-web.git
+git clone https://github.com/maxleon52/3c-api.git
 ```
 
 - Entre na pasta criada e rode yarn ou npm install
