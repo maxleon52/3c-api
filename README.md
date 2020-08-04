@@ -34,7 +34,7 @@ yarn
 - Rode yarn dev
 
 ```
-yarn
+yarn dev
 ```
 
 PS: Você deve ter o MONGODB instalado na sua maquina, e não esqueça de fazer a configuração de conexão no arquivo src/index.js, em minha maquina usei uma imagem do mongoDB com Docker.
