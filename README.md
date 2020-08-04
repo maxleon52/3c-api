@@ -21,13 +21,13 @@ Esta é um release inicial, v0.1, com o intuito apenas de válidar o MVP. Mais m
 - Clone o projeto
 
 ```
-git clone https://github.com/maxleon52/3c-web.git
+git clone https://github.com/maxleon52/3c-api.git
 ```
 
 - Entre na pasta criada e rode yarn ou npm install
 
 ```
-cd 3c-web
+cd 3c-api
 yarn
 ```
 
