@@ -27,11 +27,6 @@ const CardSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
-    color: {
-      type: String,
-      required: true,
-    },
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

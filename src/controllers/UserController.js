@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const Yup = require("yup");
 const User = require("../models/User");
-const { update } = require("../models/User");
 
 module.exports = {
   async create(req, res) {
@@ -106,5 +105,28 @@ module.exports = {
         ErrCatch: error,
       });
     }
+  },
+
+  async show(req, res) {
+    try {
+      const userExist = await User.findById(req.userId);
+
+      const { name, email } = userExist;
+      const user = { name, email };
+      res.json(user);
+    } catch (error) {
+      return res.status(400).json({
+        message: "Ocorreu um erro inesperado, contate o suporte.",
+        ErrCatch: error,
+      });
+    }
+
+    // Verificando se usuário(e-mail) existe
+    // const user = await User.findOne({ _id: token.id });
+    // if (!user) {
+    //   return res.status(401).json({ message: "Usuário não encontrado" });
+    // }
+
+    // res.json({ user });
   },
 };

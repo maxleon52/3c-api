@@ -48,7 +48,6 @@ module.exports = {
         pay_day,
         best_day,
         flag,
-        color,
       } = req.body;
 
       // Verifica se exist eo cartão no BD
@@ -66,7 +65,6 @@ module.exports = {
         pay_day: parseInt(pay_day),
         best_day: parseInt(best_day),
         flag,
-        color,
         user_id: req.userId,
       });
 

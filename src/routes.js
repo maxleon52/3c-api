@@ -26,6 +26,7 @@ routes.use(authMiddleware.authHeader);
 
 // User
 routes.put("/user", UserController.update);
+routes.get("/user", UserController.show);
 
 // Cards
 routes.get("/cards", CardController.index);
